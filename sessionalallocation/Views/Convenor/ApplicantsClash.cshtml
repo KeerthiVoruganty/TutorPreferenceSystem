@@ -1,0 +1,127 @@
+﻿@model IEnumerable<SessionalAllocation.ViewModels.ApplicantsViewModel>
+
+@{
+    ViewData["Title"] = "Applicants";
+}
+
+<h1>Applicants</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ProvisionallyAllocated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.AppliedClassNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation.Qualification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation.QualificationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.Preference)
+            </th>
+            <th>
+                @Html.Raw("Rating")
+                <div class="help-tip">
+                    <p>5 - Default <br /> >5 - Higher <br /> &lt5 - Lower </p>
+                </div>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Profile" asp-action="Index" asp-route-id="@item.Application.ApplicantNavigation.Id">@Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.FullName)</a>
+                </td>
+                <td>
+                    @Html.Raw((item.Application.ProvisionallyAllocated) ? "Yes" : "No")
+                </td>
+                <td>
+                    @Html.Raw((item.Application.Approved) ? "Yes" : "No")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.AppliedClassNavigation.ClassType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.Qualification)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.QualificationName)
+                </td>
+                <td>
+                    @switch (item.Application.Preference)
+                    {
+                        case 1:
+                            @Html.Raw("Low")
+                            break;
+                        case 2:
+                            @Html.Raw("Medium")
+                            break;
+                        case 3:
+                            @Html.Raw("High")
+                            break;
+                        default:
+                            @Html.Raw("Not selected")
+                            break;
+                    }
+                </td>
+                <td>
+                    @* dynamic form name according to applicants id *@
+                    <form name="@("selectPref"+item.Application.ApplicationId)" asp-controller="Convenor" asp-action="UpdateRating" asp-route-id="@item.Application.Applicant">
+                        @{
+                            // we need to reset the selected values to false or it may use the selected value for the previous application
+                            for (int i = 0; i < ViewBag.LoadRatings.Count; i++)
+                            {
+                                ViewBag.LoadRatings[i].Selected = false;
+                            }
+                            // set selected value for current application
+
+                            ViewBag.LoadRatings[item.rating].Selected = true;
+                        }
+                        <input type="hidden" name="classId" value="@item.Application.AppliedClass" />
+                        <select name="selectPref"
+                                asp-items="@ViewBag.LoadRatings"
+                                onchange="AutoPostBack(@("selectPref"+item.Application.ApplicationId));"></select>
+                    </form>
+                </td>
+                @if (!item.Application.ProvisionallyAllocated)
+                {
+                    <td>
+                        <form asp-controller="Convenor" asp-action="Nominate" asp-route-id="@item.Application.ApplicationId" style="display: flex;">
+                            <input type="submit" class="btn btn-primary" value="Nominate" onclick="return confirm('Applicant Nominated')" />
+                        </form>
+                    </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Any())
+{
+    <a asp-action="Classes" asp-route-id="@Model.FirstOrDefault().Application.AppliedClassNavigation.UnitId">Back to Classes</a>
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function AutoPostBack(formName) {
+            formName.submit();
+        }
+    </script>
+}

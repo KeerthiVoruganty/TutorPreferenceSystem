@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Import Timetable";
+}
+<h1>Import Timetable</h1>
+
+<form enctype="multipart/form-data" asp-action="UploadFile">
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload timetable file using this form:</p>
+            <p>Please make sure the dates are in "dd/mm/yyyy format"</p>
+            <input type="file" name="excelFile">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Upload" class="btn btn-primary">
+        </div>
+    </div>
+</form>
+<p>Importing of data may take a moment</p>
+<span>@TempData["StatusMessage"]</span>
+@if (TempData["FileName"] != null)
+{
+    <a asp-action="DownloadFile" asp-route-fileName="@TempData["FileName"]" >Download failed entries</a>
+}
+

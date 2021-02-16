@@ -1,0 +1,132 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register your account";
+}
+<!--
+<h1>@ViewData["Title"]</h1>
+-->
+<link href="~/css/login-style.css" rel="stylesheet" />
+<style>
+    body {
+        padding-top: 40px;
+    }
+
+    #inputEmail {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    #inputFName, #inputLName, #inputStreet, #inputCity, #inputState, #inputPCode, #inputCountry, #inputPassword {
+        margin-bottom: -1px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    #inputConPassword {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row text-center py-3">
+        <div class="col-md-12">
+            <!--Main Title/Logo-->
+            <h1 class="display-4 font-weight-light">Swinburne Sessional Staff Portal</h1>
+            <h2 class="font-italic">Register your Account</h2>
+        </div>
+    </div>
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="col-md-12 text-center px-lg-5">
+            <p class="text-justify">Please fill in all the fields below to register a profile with us.</p>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-FirstName-->
+                    <label asp-for="Input.FirstName" class="sr-only">First Name</label>
+                    <input asp-for="Input.FirstName" type="text" id="inputFName" class="form-control" placeholder="First Name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-LastName-->
+                    <label asp-for="Input.LastName" class="sr-only">Last Name</label>
+                    <input asp-for="Input.LastName" type="text" id="inputLName" class="form-control" placeholder="Last Name" required>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <!--Form-Register-Email-->
+                    <label asp-for="Input.Email" class="sr-only">Email Address</label>
+                    <input asp-for="Input.Email" type="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-Street-->
+                    <label asp-for="Input.Street" class="sr-only">Street</label>
+                    <input asp-for="Input.Street" type="text" id="inputStreet" class="form-control" placeholder="Street" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-City-->
+                    <label asp-for="Input.City" class="sr-only">City</label>
+                    <input asp-for="Input.City" type="text" id="inputCity" class="form-control" placeholder="City" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-State-->
+                    <label asp-for="Input.State" class="sr-only">State</label>
+                    <input asp-for="Input.State" type="text" id="inputState" class="form-control" placeholder="State" required />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!--Form-Register-PostalCode-->
+                    <label asp-for="Input.PostalCode" class="sr-only">Postal Code</label>
+                    <input asp-for="Input.PostalCode" type="text" id="inputPCode" class="form-control" placeholder="Postal Code" required />
+                </div>
+                <div class="col-md-12 mb-3">
+
+                    <!--Form-Register-Country-->
+                    <label asp-for="Input.Country" class="sr-only">Country</label>
+                    <input asp-for="Input.Country" type="text" id="inputCountry" class="form-control" placeholder="Country" required />
+                </div>
+                <div class="col-md-12 mb-3">
+
+                    <!--Form-Register-Password-->
+                    <label asp-for="Input.Password" class="sr-only">Password</label>
+                    <input asp-for="Input.Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+                </div>
+                <div class="col-md-12 mb-3">
+
+                    <!--Form-Register-ConPassword-->
+                    <label asp-for="Input.ConfirmPassword" class="sr-only">Confirm Password</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" id="inputConPassword" class="form-control" placeholder="Confirm Password" required />
+                </div>
+                <!--Form-Register-ErrMsg-->
+                <!--
+    <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+    <span asp-validation-for="Input.Street" class="text-danger"></span>
+    <span asp-validation-for="Input.City" class="text-danger"></span>
+    <span asp-validation-for="Input.State" class="text-danger"></span>
+    <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+    <span asp-validation-for="Input.Country" class="text-danger"></span>
+    <span asp-validation-for="Input.Password" class="text-danger"></span>
+    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    -->
+            </div>
+            <!--Form-Register-SubmitBtn-->
+            <button class="btn btn-lg btn-yellow-grey btn-block" type="submit">Register</button>
+            <!--Form-Register-LoginLink-->
+            <div class="mt-4 login-register">
+                <h2 class="h3 font-weight-normal">Have an Account already?</h2>
+                <div id="login-register-btn btn btn-lg">
+                    <a id="btn-back-login" class="btn btn-lg btn-block btn-primary" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </div>
+            </div>
+            <div class="logo-business mt-5">
+                <img src="~/image/swin-logo.png" alt="Swinburne Logo" height="90" />
+            </div>
+        </form>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

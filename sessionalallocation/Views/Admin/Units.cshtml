@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Unit>
+
+@{
+    ViewData["Title"] = "All Units";
+    // This page is an admin page used to view ALL units of a department, able to edit the unit details and set an owner
+}
+
+<h1>Units</h1>
+
+<table class="table" id="Units">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitOwnerNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitCode)
+                </td>
+                <td>
+                    <a href="@Html.DisplayFor(modelItem => item.UnitLink)">@Html.DisplayFor(modelItem => item.UnitName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentNavigation.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitOwnerNavigation.FullName)
+                </td>
+                <td>
+                    <!-- <a asp-action="Classes" asp-route-id="@item.Id">Classes</a> |-->
+                    <a asp-action="EditUnit" asp-route-id="@item.Id">Edit Unit</a> |
+                    <a asp-action="DetailsUnit" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="AllDepartments">Back to Departments</a>
+</div>
+
+
+@section scripts {
+
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Units').filterTable({ minRows: 0, ignoreColumns: [4] });
+        });
+    </script>
+}

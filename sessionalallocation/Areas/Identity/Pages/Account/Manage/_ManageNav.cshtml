@@ -1,0 +1,18 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Contact Details</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+        @if (hasExternalLogins)
+        {
+            <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        }
+        <li class="nav-item"><a class="nav-link @ManageNavPages.TimeAvailabilityNavClass(ViewContext)" id="TimeAvailability" asp-page="./TimeAvailability">Time Availability</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.ResumeUploadNavClass(ViewContext)" id="resume-upload" asp-page="./ResumeUpload">Resume Upload</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.QualificationsNavClass(ViewContext)" id="Qualifications" asp-page="./Qualifications">Qualifications</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.TeachingExperienceNavClass(ViewContext)" id="TeachingExperience" asp-page="./TeachingExperience">Teaching Experience</a></li>
+        @* <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>*@
+        <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Delete Personal data</a></li>
+    </ul>

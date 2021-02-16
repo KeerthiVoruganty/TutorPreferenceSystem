@@ -1,0 +1,38 @@
+﻿@model SessionalAllocation.ViewModels.PayratesViewModel
+
+@{
+    ViewData["Title"] = "Edit Payrate";
+}
+
+<h1>Edit</h1>
+
+<h4>Payrate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAll">
+            
+            @foreach (var payrate in Model.Payrates)
+            {
+            <p>
+                <input type="hidden" asp-for="@Model.Payrates[payrate.Key].Id" />
+                <input type="hidden" asp-for="@Model.Payrates[payrate.Key].Name" />
+                <input type="hidden" asp-for="@Model.Payrates[payrate.Key].Code" />
+                <label class="control-label" asp-for="@payrate.Value.Rate">
+                    @payrate.Value.Name
+                </label>
+                <input asp-for="@Model.Payrates[payrate.Key].Rate" class="form-control" type="number" step="0.01"/>
+
+            </p>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

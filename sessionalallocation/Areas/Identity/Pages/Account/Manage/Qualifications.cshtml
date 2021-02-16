@@ -1,0 +1,93 @@
+﻿@page
+@model QualificationsModel
+@{
+    ViewData["Title"] = "My Qualifications";
+    ViewData["ActivePage"] = ManageNavPages.Qualifications;
+}
+
+    <div class="container">
+        <h4>@ViewData["Title"]</h4>
+        <partial name="_StatusMessage" for="StatusMessage" />
+        <form id="qualification-form" method="post">
+            <div class="row">
+                <div class="col-md-9">
+                    <h3>Highest Completed Qualification:</h3>
+                    <p>Please indicate the highest level Qualification you have received.</p>
+                    <select asp-for="Input.QualificationType" asp-items="Html.GetEnumSelectList<HighestQualificationType>()" onchange="showQualDetails()" id="highestQualType"></select>
+
+
+                    <div class="form-group" id="qualNameDiv">
+                        <label asp-for="Input.QualificationName">Please write the title of your Award:</label>
+                        <input asp-for="Input.QualificationName" class="form-control" />
+                        <span asp-validation-for="Input.QualificationName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" id="qualCompletedYearDiv">
+                        <label asp-for="Input.QualificationCompletionYear">When did you complete this Qualification?</label>
+                        <input asp-for="Input.QualificationCompletionYear" class="form-control" />
+                        <span asp-validation-for="Input.QualificationCompletionYear" class="text-danger"></span>
+                    </div>
+                    <p>Are you currently studying a Qualification?</p>
+                    @Html.RadioButtonFor(model => model.Input.AreYouStudying, "Yes", new { @id = "isCurrentlyStudying", @onclick = "showCurrentStudyQualDetails()" })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(model => model.Input.AreYouStudying, "No", new { @id = "isNotCurrentlyStudying", @onclick = "showCurrentStudyQualDetails()" })
+                    @Html.Label("No")
+                </div>
+                @*need a if statement here to check if box has been clicked.*@
+                <div class="col-md-9" id="currentStudyDetails">
+                    <h4>Current Studies:</h4>
+                    <p>Please indicate the current level of the Qualification that you are studying:</p>
+                    @*Current Studying Qualification Type*@
+                    <select asp-for="Input.CurrentQualificationType" asp-items="Html.GetEnumSelectList<CurrentStudyingQualType>()" id="currentStudyingQualType"></select>
+                    <div class="form-group">
+                        <label asp-for="Input.CurrentStudyingQualification">Please write the title of the Qualification:</label>
+                        <input asp-for="Input.CurrentStudyingQualification" class="form-control" />
+                        <span asp-validation-for="Input.CurrentStudyingQualification" class="text-danger"></span>
+                    </div>
+                    <p>Please specify if you are an International or Local student:</p>
+                    @Html.DropDownListFor(model => model.Input.isStudyasInternationalStudent, new List<SelectListItem>
+                   {
+                       new SelectListItem { Text = "Local Student", Value = "Local", },
+                       new SelectListItem { Text = "International", Value = "International"},
+                   }, "Studying Status")
+                    <p>Are you studying this Qualification at Swinburne University of Technology?</p>
+                    @Html.CheckBoxFor(model => model.Input.StudyingAtSwinburne) Yes
+                </div>
+            </div>
+            <br />
+            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+<script>
+    window.onload = function ()
+    @*Shows/Hides details on window load.*@
+    {
+        showQualDetails();
+        showCurrentStudyQualDetails();
+    }
+    @*Reveals the Current study qualifications fields.*@
+  function showCurrentStudyQualDetails() {
+      if (document.getElementById("isCurrentlyStudying").checked) {
+          document.getElementById("currentStudyDetails").style.display = "block";
+      }
+      else {
+          document.getElementById("currentStudyDetails").style.display = "none";
+      }
+    }
+
+    @*Shows the rest of the Qualification details if the user selects anything else other than 'No Qualification'*@
+    function showQualDetails() {
+        @*If the 'No Qualification' option is selected, hide away the rest of the Qualification Details.*@
+        if (document.getElementById('highestQualType').value == "0") {
+            document.getElementById("qualNameDiv").style.display = "none";
+            document.getElementById("qualCompletedYearDiv").style.display = "none";
+        }
+        @*If any other option is selected, then reveal the Qualification details.*@
+        else {
+            document.getElementById("qualNameDiv").style.display = "block";
+            document.getElementById("qualCompletedYearDiv").style.display = "block";
+        }
+    }
+   
+</script>
+  

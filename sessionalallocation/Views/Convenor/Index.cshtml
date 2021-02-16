@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Unit>
+
+@{
+    ViewData["Title"] = "My Units";
+}
+
+<h1>My Units</h1>
+
+<table class="table" id="Units">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitOwnerNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitCode)
+                </td>
+                <td>
+                    <a href="@Html.DisplayFor(modelItem => item.UnitLink)">@Html.DisplayFor(modelItem => item.UnitName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentNavigation.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitOwnerNavigation.FullName)
+                </td>
+                <td>
+                    <a asp-action="Classes" asp-route-id="@item.Id">Classes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Units').filterTable({ minRows: 0, ignoreColumns: [4] });
+        });
+    </script>
+}

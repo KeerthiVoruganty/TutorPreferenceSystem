@@ -1,0 +1,119 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Class>
+
+@{
+    ViewData["Title"] = "Classes";
+}
+<h1>Classes</h1>
+<form asp-controller="Convenor" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="All" />
+    <input type="submit" class="btn btn-link" value="All" />
+</form>|
+<form asp-controller="Convenor" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="Allocated" />
+    <input type="submit" class="btn btn-link" value="Tutor Allocated" />
+</form>|
+<form asp-controller="Convenor" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="NotAllocated" />
+    <input type="submit" class="btn btn-link" value="Tutor not Allocated" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Allocated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TutorAllocatedNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudyPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayOfWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTimeScheduled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTimeScheduled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit.UnitName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassType)
+                </td>
+                <td>
+                    @Html.Raw((item.Allocated) ? "Yes" : "No")
+                </td>
+                <td>
+                    @Html.Raw((item.Approved) ? "Yes" : "No")
+                </td>
+                <td>
+                    @if (item.TutorAllocated == null)
+                    {
+                        @Html.Raw("None")
+                    }
+                    else
+                    {
+                        <a asp-controller="Profile" asp-action="Index" asp-route-id="@item.TutorAllocatedNavigation.Id">@Html.DisplayFor(modelItem => item.TutorAllocatedNavigation.FullName)</a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudyPeriod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOnlyString)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTimeScheduled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTimeScheduled)
+                </td>
+                <td>
+                    <a asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
+
+                </td>               
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="col-md-12">
+    <div class="float-left">
+        <a asp-action="Index">Back to Units</a>
+    </div>
+    <div class="float-right">
+        <a class="btn btn-primary" asp-action="TutorPayrates" asp-route-id="@Model.FirstOrDefault().UnitId">Generate Payrates</a>
+    </div>
+</div>
+

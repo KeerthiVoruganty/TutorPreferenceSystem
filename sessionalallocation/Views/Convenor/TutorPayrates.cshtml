@@ -1,0 +1,115 @@
+﻿@model SessionalAllocation.ViewModels.UnitTutorsViewModel;
+   
+
+@{
+    ViewData["Title"] = "Tutor Payrates";
+}
+
+<h1>Tutor Payrates</h1>
+
+<hr />
+<div class="row" >
+    <div class="col-md-12">
+        <form method="post" asp-action="TutorPayratesConfirm">
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.Raw("Class Type")
+                        </th>
+                        <th >
+                            @Html.Raw("Start Date")
+                        </th>
+                        <th>
+                            @Html.Raw("Day of Week")
+                        </th>
+                        <th >
+                            @Html.Raw("Staff Name")
+                        </th>
+                        <th >
+                            @Html.Raw("Weeks (remove public holidays and mid-semester break)")
+                        </th>
+                        <th>
+                            @Html.Raw("Pay rate")
+                            <div class="help-tip" style="z-index:999">
+                                <p>Payrates:<br />
+                                LA - Lecturing A: Basic <br /> 
+                                LB - Lecturing B: Developed <br /> 
+                                LC - Lecturing C: Specialised <br />
+                                LD - Lecturing D: Repeat <br />
+                                TE - Tutoring E: Normal <br />
+                                TF - Tutoring F: Repeat <br />
+                                TG - Tutoring G: Normal PhD/Co-ord <br />
+                                TH - Tutoring H: Repeat PhD/Co-ord <br />
+                                OS - Other: Normal <br />
+                                OT - Other: PhD/Co-ord
+                                </p>
+                            </div>
+                        </th>
+                        <th >
+                            @Html.Raw("Staff Status")
+                        </th>
+                        <th >
+                            @Html.Raw("New Staff?")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var keyValue in Model.Tutors)
+                    {
+                        <tr>
+                            <td >
+                                <!-- hidden inputs that don't need to be displayed, but are needed to generate excel file -->
+                                <input type="hidden" asp-for="@Model.UnitCode" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].ClassDuration" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].ClassStartTime" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorFirstName" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorLastName" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorEmail" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorAddress" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorSuburb" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorPostCode" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorMobileNumber" />
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorId" />
+
+                                <input asp-for="@Model.Tutors[keyValue.Key].ClassType" class="form-control-plaintext" readonly />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.Tutors[keyValue.Key].ClassStartDate" class="form-control-plaintext" readonly />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.Tutors[keyValue.Key].ClassDayOfWeek" class="form-control-plaintext" readonly />
+                            </td>
+                            <td>
+                                <a asp-controller="Profile" asp-action="Index" asp-route-id="@Model.Tutors[keyValue.Key].TutorId" target="_blank">@Model.Tutors[keyValue.Key].TutorFullName</a>
+                                <input type="hidden" asp-for="@Model.Tutors[keyValue.Key].TutorFullName" class="form-control-plaintext" readonly />
+                            </td>
+                            <td >
+                                @foreach (var kv in Model.Tutors[keyValue.Key].Weeks)
+                                {
+
+                                    <input asp-for="@Model.Tutors[keyValue.Key].Weeks[kv.Key]" class="checkbox-inline" style="margin-left: 10px" />
+                                    <label class="form-check-label" asp-for="@kv.Value">
+                                        @kv.Key
+                                    </label>
+                                }
+                            </td>
+                            <td  width="79px" >
+                                <select asp-for="@Model.Tutors[keyValue.Key].PayrateCode" class="form-control" asp-items="ViewBag.Payrates"></select>
+                            </td>
+                            <td width="160px">
+                                <input asp-for="@Model.Tutors[keyValue.Key].StaffStatus" class="form-control-plaintext" readonly />
+                            </td>
+                            <td>
+                                <input asp-for="@Model.Tutors[keyValue.Key].NewStaff" class="checkbox" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <input type="submit" value="Next" class="btn btn-primary float-right"/>
+        </form>
+    </div>
+</div>

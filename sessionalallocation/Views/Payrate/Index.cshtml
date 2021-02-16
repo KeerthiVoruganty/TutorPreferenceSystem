@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Payrate>
+@{
+    ViewData["Title"] = "Payrates";
+}
+
+<h1>Payrates</h1>
+
+<table class="table" id="Units">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="col-md-12">
+    <div class="float-right">
+        <a asp-action="EditAll" >Edit All</a>
+    </div>
+</div>

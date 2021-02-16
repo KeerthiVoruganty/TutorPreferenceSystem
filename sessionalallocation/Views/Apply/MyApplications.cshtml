@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Applications>
+
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+<h1>My Applications</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.StudyPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.DayOfWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.StartTimeScheduled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedClassNavigation.EndTimeScheduled)
+            </th>
+            <th>
+                Preference
+                <div class="help-tip">
+                    <p>Enter Preference<br /> 0 - Any <br /> 1 - Low <br /> 2 - Medium <br /> 3 - High</p>
+                </div>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.ClassType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.StudyPeriod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.DateOnlyString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.DayOfWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.StartTimeScheduled)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedClassNavigation.EndTimeScheduled)
+            </td>
+            <td>
+                @* dynamic form name according to application ID *@
+                <form name="@("selectPref"+item.ApplicationId)" asp-controller="Apply" asp-action="UpdatePref" asp-route-id="@item.ApplicationId">
+                    @{
+                        // want to set currently selected preference to preference user selected for class
+                        // we need to reset the selected values to false or it may use the selected value for the previous application
+                        for (int i = 0; i < ViewBag.LoadPreferences.Count; i++)
+                        {
+                            ViewBag.LoadPreferences[i].Selected = false;
+                        }
+                        // set selected value for current application
+                        ViewBag.LoadPreferences[item.Preference].Selected = true;
+                     }
+                    <select name="selectPref"
+                            asp-items="@ViewBag.LoadPreferences"
+                            onchange="AutoPostBack(@("selectPref"+item.ApplicationId));"></select>
+                </form>
+            </td>
+            <td>
+                <a asp-controller="Apply" asp-action="Remove" asp-route-id="@item.ApplicationId">Remove</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function AutoPostBack(formName) {
+            formName.submit();
+        }       
+    </script>
+}

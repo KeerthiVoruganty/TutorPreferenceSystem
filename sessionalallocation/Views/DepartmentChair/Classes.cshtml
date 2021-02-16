@@ -1,0 +1,151 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Class>
+
+@{
+    ViewData["Title"] = "Classes";
+    var message = TempData["Message"] ?? string.Empty;
+}
+
+<h1>Classes</h1>
+<form asp-controller="DepartmentChair" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="All" />
+    <input type="submit" class="btn btn-link" value="All" />
+</form>|
+<form asp-controller="DepartmentChair" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="Allocated" />
+    <input type="submit" class="btn btn-link" value="Tutor Allocated" />
+</form>|
+<form asp-controller="DepartmentChair" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="NotAllocated" />
+    <input type="submit" class="btn btn-link" value="Tutor not Allocated" />
+</form>|
+<form asp-controller="DepartmentChair" asp-action="Classes" method="get" style="display:inline">
+    <input type="hidden" name="Filter" value="NotApproved" />
+    <input type="submit" class="btn btn-link" value="Tutor not Approved" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TutorAllocatedNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudyPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayOfWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTimeScheduled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTimeScheduled)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit.UnitName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassType)
+                </td>
+                <td>
+                    @Html.Raw((item.Approved) ? "Yes" : "No")
+                </td>
+                <td>
+                    @if (item.TutorAllocated == null)
+                    {
+                        @Html.Raw("None")
+                    }
+                    else
+                    {
+                        <a asp-controller="Profile" asp-action="Index" asp-route-id="@item.TutorAllocatedNavigation.Id">@Html.DisplayFor(modelItem => item.TutorAllocatedNavigation.FullName)</a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudyPeriod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOnlyString)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTimeScheduled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTimeScheduled)
+                </td>
+                <td>
+                    <a asp-action="Applicants" asp-route-id="@item.Id">Applicants</a>
+                </td>
+                <td>
+                    @if (item.Allocated)
+                    {
+                        <form asp-controller="DepartmentChair" asp-action="Approve" asp-route-id="@item.Id" style="display: flex;">
+                            <input type="submit" class="btn btn-primary" value="Approve"  />
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    @{
+        Console.WriteLine("Aprove All Clicked");
+        int init = 0;
+        var idParms = new Dictionary<string, string> { };
+        foreach (var itm in Model)
+        {
+            if (itm.Allocated)
+            {
+                idParms.Add(init.ToString(), itm.Id.ToString());
+                init++;
+            }
+        }
+    }
+    <div class="col-md-12">
+        <div class="float-left">
+            @if (Model.Any())
+            {
+                <a asp-action="Units" asp-route-id="@Model.FirstOrDefault().UnitId">Back to Units</a>
+            }
+        </div>
+        <!-- Float Approve All to the right-hand-side -->
+        <div class="float-right">
+            <a class="btn btn-secondary" asp-action="ApproveAll" asp-all-route-data="@idParms">Approve All</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var message = '@message';
+if(message)
+    alert(message);
+</script>
+

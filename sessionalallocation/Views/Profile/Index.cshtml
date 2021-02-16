@@ -1,0 +1,291 @@
+﻿@model SessionalAllocation.Models.ApplicationUser;
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<h1>User Profile</h1>
+
+<h4>@Model.FullName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Personal Details:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.FirstName">First Name</label>
+                    <input asp-for="@Model.FirstName" class="form-control" readonly/>
+                    <label asp-for="@Model.LastName">Surname</label>
+                    <input asp-for="@Model.LastName" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.SwinburneID"></label>
+                    <input asp-for="@Model.SwinburneID" class="form-control" readonly/>
+                    <label asp-for="@Model.LinkedInProfileUrl">LinkedIn Profile URL</label>
+                    <input asp-for="@Model.LinkedInProfileUrl" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <a asp-action="DownloadResume" asp-route-id="@Model.Id">Download Resume</a>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.YoutubeUrl"></label>
+                    <input asp-for="@Model.YoutubeUrl" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Contact Details:</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="@Model.Email"></label>
+                    <input asp-for="@Model.Email" class="form-control" readonly/>
+                    <div class="form-group">
+                        <label asp-for="@Model.PhoneNumber"></label>
+                        <input asp-for="@Model.PhoneNumber" class="form-control" readonly/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Personal Address Details:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.Street">Street Address</label>
+                    <input asp-for="@Model.Street" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.City">City/Suburb</label>
+                    <input asp-for="@Model.City" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.State"></label>
+                    <input asp-for="@Model.State" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <div class="form-group">
+                    <label asp-for="@Model.PostalCode"></label>
+                    <input asp-for="@Model.PostalCode" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.Country"></label>
+                    <input asp-for="@Model.Country" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Qualifications:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.Qualification">Highest Completed Qualification</label>
+                    <input asp-for="@Model.Qualification" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.QualificationName">Qualification Name</label>
+                    <input asp-for="@Model.QualificationName" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.QulificationCompletionYear">Completion Year</label>
+                    <input asp-for="@Model.QulificationCompletionYear" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.AreYouStudying">Currently Studying?</label>
+                    <input asp-for="@Model.AreYouStudying" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+        @if (Model.AreYouStudying == "Yes")
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="@Model.CurrentStudyingQualification">Current Qualifaction</label>
+                        <input asp-for="@Model.CurrentStudyingQualification" class="form-control" readonly/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="@Model.CitizenshipStudyStatus">Local/International Student</label>
+                        <input asp-for="@Model.CitizenshipStudyStatus" class="form-control" readonly/>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="@Model.StudyingAtSwinburne">Studing at Swinburne?</label>
+                        @if (Model.StudyingAtSwinburne)
+                        {
+                            <input value="Yes" class="form-control" readonly/>
+                        }
+                        else
+                        {
+                            <input value="No" class="form-control" readonly/>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Work and Teaching Experience:</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.NumberYearsWorkExperience">Workplace Experience</label>
+                    @Html.TextAreaFor(model => model.Publications, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.PreviousTeachingExperience">Teaching Experience</label>
+                    @Html.TextAreaFor(model => model.PreviousTeachingExperience, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.Publications">Teaching Experience</label>
+                    @Html.TextAreaFor(model => model.Publications, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.TutorTraining">Tutor Training and Experience</label>
+                    <input asp-for="@Model.TutorTraining" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.OtherTraining">Other Training</label>
+                    <input asp-for="@Model.OtherTraining" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.CanvasTraining">Canvas Training</label>
+                    <input asp-for="@Model.CanvasTraining" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.FSETSessionalInduction">FSET Training</label>
+                    <input asp-for="@Model.FSETSessionalInduction" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.SwinburneSessionalInduction">Swinburne Training</label>
+                    <input asp-for="@Model.SwinburneSessionalInduction" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.AustralianWorkRights">Able to work in Australia?</label>
+                    <input asp-for="@Model.AustralianWorkRights" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="@Model.WorkRights">Work rights</label>
+                    <input asp-for="@Model.WorkRights" class="form-control" readonly/>
+                </div>
+            </div>
+        </div>
+        @if (Model.WorkRights == "Visa")
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="@Model.VisaType">Visa Type</label>
+                        <input asp-for="@Model.VisaType" class="form-control" readonly/>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="@Model.VisaNumber">Visa Number</label>
+                        <input asp-for="@Model.VisaNumber" class="form-control" readonly/>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<div>
+    <a href='javascript:history.go(-1)'>Go Back</a>
+</div>
+

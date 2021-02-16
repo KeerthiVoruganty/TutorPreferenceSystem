@@ -1,0 +1,99 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Class>
+
+@{
+    ViewData["Title"] = "Classes";
+}
+
+<h1>Classes</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudyPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayOfWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTimeScheduled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTimeScheduled)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string itemId = "preference" + item.Id.ToString();
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit.UnitName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudyPeriod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOnlyString)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayOfWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTimeScheduled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTimeScheduled)
+                </td>
+                <td>
+                    <form name="@("applyClass"+item.Id)" asp-controller="Apply" asp-action="Apply" asp-route-id="@item.Id" style="display: flex;">
+                        <!--<select id="@itemId" name="@itemId" asp-items="@ViewBag.LoadPreferences" style="margin-right:5px;"></select>-->
+                        <input type="submit" class="btn btn-primary" value="Apply" onclick="return confirm('Unit Applied!')" />
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    @{
+        Console.WriteLine("Apply All Clicked");
+        int init = 0;
+        var idParms = new Dictionary<string, string> { };
+        foreach (var itm in Model)
+        {
+            idParms.Add(init.ToString(), itm.Id.ToString());
+            init++;
+        }
+    }
+    <div class="col-md-12">
+        <div class="float-left">
+            <a class="btn btn-primary" asp-action="Index">Go Back</a>
+        </div>
+        <!-- Float Apply All to the right-hand-side -->
+        <div class="float-right">
+            <a class="btn btn-secondary" asp-action="ApplyAll" asp-all-route-data="@idParms">Apply All</a>
+        </div>
+    </div>
+</div>

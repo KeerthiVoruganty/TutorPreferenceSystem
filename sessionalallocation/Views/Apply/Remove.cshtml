@@ -1,0 +1,75 @@
+﻿@model SessionalAllocation.Models.Applications
+
+@{
+    ViewData["Title"] = "Remove";
+}
+
+<h1>Remove</h1>
+
+<h3>Are you sure you want to remove this application?</h3>
+<div>
+    <h4>Application</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ApplicantNavigation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ApplicantNavigation.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.Unit)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.Unit.UnitName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.ClassType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.ClassType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.Location)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.StudyPeriod)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.StudyPeriod)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.DateOnlyString)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.DateOnlyString)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.DayOfWeek)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.DayOfWeek)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.StartTimeScheduled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.StartTimeScheduled)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedClassNavigation.EndTimeScheduled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppliedClassNavigation.EndTimeScheduled)
+        </dd>
+    </dl>
+
+    <form asp-action="Remove">
+        <input type="hidden" asp-for="ApplicationId" />
+        <input type="submit" value="Remove" class="btn btn-danger" onclick="return confirm('Unit Removed!')"/> |
+        <a asp-action="MyApplications">Back to Applications</a>
+    </form>
+</div>

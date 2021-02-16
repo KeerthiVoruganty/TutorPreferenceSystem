@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SessionalAllocation.Models.Unit>
+
+@{
+    ViewData["Title"] = "Apply";
+}
+
+<h1>Apply for Classes</h1>
+<!--
+<a class="nav-link text-dark" asp-controller="Apply" asp-action="MyApplications">My Applications</a>
+-->
+
+<table class="table" id="Units">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitName)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitCode)
+                </td>
+                <td>
+                    <a href= "@Html.DisplayFor(modelItem => item.UnitLink)">@Html.DisplayFor(modelItem => item.UnitName)</a> 
+                </td>               
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentNavigation.Name)
+                </td>
+                <td>
+                    <a asp-action="Classes" asp-route-id="@item.Id">Classes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#Units').filterTable({ minRows: 0, ignoreColumns: [3] });
+        });
+    </script>
+<script>
+    function myfun() {
+        location.href = "https://www.google.com";
+    }
+</script>
+}

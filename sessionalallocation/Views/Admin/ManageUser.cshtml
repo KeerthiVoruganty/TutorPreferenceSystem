@@ -1,0 +1,36 @@
+﻿@model SessionalAllocation.ViewModels.UserRolesViewModel;
+
+@{
+    ViewData["Title"] = "Manage User";
+}
+
+<h1>Manage User</h1>
+
+<h4>@Model.UserFullName</h4>
+<hr />
+<h5>Roles</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input type="hidden" asp-for="@Model.UserId" />
+            <input type="hidden" asp-for="@Model.UserFullName" />
+            
+            @foreach (var role in Model.UserRoles)
+            {
+                <p>
+                    <input asp-for="@Model.UserRoles[role.Key]" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@role.Value">
+                        @role.Key
+                    </label>
+                </p>
+            }
+            <input type="submit" value="Update" class="btn btn-primary" />
+            <a asp-action="ListUsers" class="btn btn-primary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListUsers">Back to List</a>
+</div>
+

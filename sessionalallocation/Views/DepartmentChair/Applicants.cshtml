@@ -1,0 +1,108 @@
+﻿@model IEnumerable<SessionalAllocation.ViewModels.ApplicantsViewModel>
+
+@{
+    ViewData["Title"] = "Applicants";
+}
+
+<h1>Applicants</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ProvisionallyAllocated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.AppliedClassNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation.Qualification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application.ApplicantNavigation.QualificationName)
+            </th>
+            <th>
+                @Html.Raw("Applicant Preference")
+            </th>
+            <th>
+                @Html.Raw("Convenor Rating")
+                <div class="help-tip">
+                    <p>5 - Default <br /> >5 - Higher <br /> &lt5 - Lower </p>
+                </div>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Profile" asp-action="Index" asp-route-id="@item.Application.ApplicantNavigation.Id">@Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.FullName)</a>
+                </td>
+                <td>
+                    @Html.Raw((item.Application.ProvisionallyAllocated) ? "Yes" : "No")
+                </td>
+                <td>
+                    @Html.Raw((item.Application.Approved) ? "Yes" : "No")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.AppliedClassNavigation.ClassType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.Qualification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.ApplicantNavigation.QualificationName)
+                </td>
+                <td>
+                    @switch (item.Application.Preference)
+                    {
+                        case 1:
+                            @Html.Raw("Low")
+                            break;
+                        case 2:
+                            @Html.Raw("Medium")
+                            break;
+                        case 3:
+                            @Html.Raw("High")
+                            break;
+                        default:
+                            @Html.Raw("Not selected")
+                            break;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rating)
+                </td>
+                @if (item.Application.ProvisionallyAllocated)
+                {
+                    <td>
+                        <form asp-controller="DepartmentChair" asp-action="Reject" asp-route-id="@item.Application.ApplicationId" style="display: flex;">
+                            <input type="submit" class="btn btn-primary" value="Reject" onclick="return confirm('Tutor Rejected')" />
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-controller="DepartmentChair" asp-action="Nominate" asp-route-id="@item.Application.ApplicationId" style="display: flex;">
+                            <input type="submit" class="btn btn-primary" value="Set as Tutor" onclick="return confirm('Tutor Set')" />
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Any())
+{
+    <a asp-action="Classes" asp-route-id="@Model.FirstOrDefault().Application.AppliedClassNavigation.UnitId">Back to Classes</a>
+}
+

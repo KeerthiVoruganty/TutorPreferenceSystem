@@ -1,0 +1,130 @@
+﻿@page
+@model SessionalAllocation.Areas.Identity.Pages.Account.Manage.TimeAvailabilityModel
+@{
+    ViewData["Title"] = "My Available Times";
+    
+}
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-12">
+        <h2>My Time Availability</h2>
+        <form method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TimeAvailabilityList[0].WeekDay)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TimeAvailabilityList[0].FromTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TimeAvailabilityList[0].EndTime)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.TimeAvailabilityList.Count <= 0)
+                    {
+                        <tr>
+                            <td colspan="3">
+                                <p>No Time Availabilites have been recorded.</p>
+                                
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model.TimeAvailabilityList)
+                        {
+                            
+                            <tr>
+                                <td>
+                                    <div id="day">                                           
+                                        @Html.DisplayFor(modelItem => item.WeekDay)
+                                    </div>
+                                </td>
+                                <td id="fromTime">
+                                    @((item.IsAllDay) ? Html.Raw("All Day") : Html.DisplayFor(modelItem => item.FromTime))
+                                </td>
+                                <td>
+                                    @((item.IsAllDay) ? Html.Raw("All Day") : Html.DisplayFor(modelItem => item.EndTime))
+                                </td>
+                                <td id="endTime">
+                                    <button type="submit" asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Add new Time Availability</h2>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TimeAvailability.WeekDay" class="control-label"></label>
+                <select asp-for="TimeAvailability.WeekDay" asp-items="Html.GetEnumSelectList<DaysOfWeek>()" class="form-control" id="selectDay"></select>
+                <span asp-validation-for="TimeAvailability.WeekDay" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <input class="form-check-input" id="chkIsAllDay" onclick="revealTimeSelecter()" checked="checked" asp-for="TimeAvailability.IsAllDay" />
+                <label class="form-check-label" asp-for="TimeAvailability.IsAllDay">I am available all day</label>
+            </div>
+            <div class="form-group" id="divTimeSelecters" style="display: none">
+                <label asp-for="TimeAvailability.FromTime" class="control-label"></label>
+                <input asp-for="TimeAvailability.FromTime" class="form-control" value="09:00" />
+                <span asp-validation-for="TimeAvailability.FromTime" class="text-danger"></span>
+                <label asp-for="TimeAvailability.EndTime" class="control-label"></label>
+                <input asp-for="TimeAvailability.EndTime" value="17:00" class="form-control" />
+                <span asp-validation-for="TimeAvailability.EndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" onclick="duplicateAvailability()" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    var i = 0;
+    var day = new Array();
+    function revealTimeSelecter() {
+        //If the checkbox was just checked, then hide the time pickers.
+        if (document.getElementById("chkIsAllDay").checked) {
+            document.getElementById("divTimeSelecters").style.display = "none";
+        }
+        //Otherwise, show the time pickers.
+        else {
+            document.getElementById("divTimeSelecters").style.display = "block";
+        }
+    }
+
+
+    function duplicateAvailability() {
+        //alert((document.getElementById("day").innerHTML));
+        day(i) = document.getElementById("selectDay").value;
+        i++;
+        alert(day(i));
+        for (k = 0; k < day.length(); k++) {
+            if (day(k) == document.getElementById("selectDay").value) {
+                alert("NOOOOO");
+            }
+        }
+        
+        
+    }
+</script>

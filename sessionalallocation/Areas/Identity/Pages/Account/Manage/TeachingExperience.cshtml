@@ -1,0 +1,141 @@
+﻿@page
+@model TeachingExperienceModel
+@{
+    ViewData["Title"] = "My Teaching Experience";
+    ViewData["ActivePage"] = ManageNavPages.TeachingExperience;
+}
+
+<div class="container">
+    <form id="TeachingExperience-form" method="post">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Work and Teaching Experience</h4>
+                <div class="form-group">
+                    <label asp-for="Input.NumberYearsWorkExperience">Please writeup about your workplace experience, with a request for role (e.g. 2 years Project Manager, 4 years programmer)</label>
+                    @Html.TextAreaFor(model => model.Input.NumberYearsWorkExperience, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.PreviousTeachingExperience">Please provide us references to any research publications that you have published.<br />Provide your publications with formal citation description (e.g. Citizen, John, "Research Pub", Journal of Research, 2001)</label>
+                    @Html.TextAreaFor(model => model.Input.PreviousTeachingExperience, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Publications">Please writeup about your previous teaching experience (e.g. SWE 40001 Software Engineering Project A, head tutor S2 2016)</label>
+                    @Html.TextAreaFor(model => model.Input.Publications, new { @class = "form-control" })
+                </div>
+                <span asp-validation-for="Input.YoutubeURL" class="text-danger"></span>
+                <p>*Tutor Training and Experience history: </p>
+                @Html.RadioButtonFor(model => model.Input.TutorTraining, "Attended Swinburne Sessional Induction") Attended Swinburne Sessional Induction<br />
+                @Html.RadioButtonFor(model => model.Input.TutorTraining, "Atteneded FSET Sessional Induction") Atteneded FSET Sessional Induction <br />
+                @Html.RadioButtonFor(model => model.Input.TutorTraining, "Completed Canvas Essential online training") Completed Canvas Essential online training <br />
+                @Html.RadioButtonFor(model => model.Input.TutorTraining, "Other Training - e.g taught at other departments, instiutions, etc.") Completed Canvas Essential online training <br />
+                @Html.RadioButtonFor(model => model.Input.TutorTraining, "No Tutor Training - teaching for the first time") No Tutor Training - teaching for the first time<br />
+                <br />
+                <p>Other Training:</p>
+                @Html.DropDownListFor(model => model.Input.OtherTraining, new List<SelectListItem>
+                {
+                   new SelectListItem { Text = "Department Training", Value = "Department Training", },
+                   new SelectListItem { Text = "Office Training", Value = "Office Training"},
+                }, "Other Training")<br />
+                <p>Canvas Training:</p>
+                @Html.DropDownListFor(model => model.Input.CanvasTraining, new List<SelectListItem>
+                {
+                   new SelectListItem { Text = "Yes", Value = "Yes", },
+                   new SelectListItem { Text = "No", Value = "No"},
+
+                }, "Completed Canvas Training?")<br />
+
+                <p>FSET Training(Sessional Allocation):</p>
+                @Html.DropDownListFor(model => model.Input.FSETSessionalInduction, new List<SelectListItem>
+                {
+                   new SelectListItem { Text = "Yes", Value = "Yes", },
+                   new SelectListItem { Text = "No", Value = "No"},
+
+                }, "FSET Training?")<br />
+
+                <p>Swinburne Training(Sessional Allocation):</p>
+                @Html.DropDownListFor(model => model.Input.SwinburneSessionalInduction, new List<SelectListItem>
+                {
+                   new SelectListItem { Text = "Yes", Value = "Yes", },
+                   new SelectListItem { Text = "No", Value = "No"},
+
+                }, "Swinburne Training?")<br />
+                <p> Do you have work rights in Australia?</p>
+                <div class="form-group">
+                    @Html.RadioButtonFor(model => model.Input.AustralianWorkRights, "Yes", new { onclick = "check()" })@Html.Label("Yes")<br />
+                    @Html.RadioButtonFor(model => model.Input.AustralianWorkRights, "No")@Html.Label("No")<br />
+                </div>
+                <div class="collapse" id="WorkStatus">
+                    <p> What is your current Status in Australia</p>
+                    <div class="form-group">
+                        @Html.RadioButtonFor(model => model.Input.WorkRights, "Citizen/Permanent")@Html.Label(" I am a citizen or permanent resident")<br />
+                        @Html.RadioButtonFor(model => model.Input.WorkRights, "Visa", new { onclick = "visainput()" })@Html.Label(" I am on a visa")
+
+                    </div>
+
+
+                    <div id="VisaInput" style="display:none">
+                        @Html.DropDownListFor(model => model.Input.VisaType, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "Work visa or similar, with unlimited hours", Value = "Work visa or similar, with unlimited hours"},
+                                new SelectListItem { Text = "Student visa with limited hours", Value = "Student visa with limited hours"},
+                                new SelectListItem { Text = "Bridging visa", Value = "Bridging visa"}
+                             }, "-- Working Rights --")<br />
+
+
+                        <label asp-for="Input.VisaNumber"></label>
+                        <input asp-for="Input.VisaNumber" class="form-control" />
+                        <span asp-validation-for="Input.VisaNumber" class="text-danger"></span>
+                    </div>
+
+                    
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            Video request: you must provide a link to a 1 minute YouTube video. <a href="https://stpsdev.net/doc/Creating-YT-videos-v4-updated-for-privacy.pdf">Read these instructions here</a>.
+                            In your video, please tell us why you want to teach at Swinburne and what you can offer as a teacher.
+                        </p>
+                        <p><span style="font-weight: bold;">Note:</span> You can Save your details now whilst you complete your video, and return later.</p>
+                        <label asp-for="Input.YoutubeURL">Video Link (YouTube URL):</label>
+                        <input asp-for="Input.YoutubeURL" class="form-control" />
+                        <br />
+                        <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // need to add onload function that checks the model to see if information has been already entered.
+    window.onload = function ()
+    {
+        var visaDiv = document.getElementById("VisaInput")
+        var csDiv = document.getElementById("WorkStatus");
+        if ('@Model.Input.AustralianWorkRights' == "Yes")
+        {
+            csDiv.style.display = "block";
+            visaDiv.style.display = "block";
+        }
+        else
+        {
+            visaDiv.style.display = "none";
+        }
+
+    }
+
+    function check() {
+        var csDiv = document.getElementById("WorkStatus");
+        csDiv.style.display = "block";
+    }
+    function visainput() {
+        var visaDiv = document.getElementById("VisaInput");
+            visaDiv.style.display = "block";
+            console.log("show div visa");
+        }
+
+
+
+</script>
+

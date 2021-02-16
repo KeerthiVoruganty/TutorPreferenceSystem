@@ -1,0 +1,81 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+<link href="~/css/login-style.css" rel="stylesheet"/>
+<style>
+    body{
+        padding-top: 40px;
+    }
+
+    #inputEmail {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    #inputPassword {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row text-center py-3">
+        <div class="col-md-12">
+            <h1 class="display-4 font-weight-light">Swinburne Sessional Staff Portal</h1>
+            <h2 class="font-italic">Log into your existing Account</h2>
+        </div>
+    </div>
+    <div class="login-main-frame text-center">
+        <!--Main Title/Logo-->
+        <form class="form-signin" id="account" method="post">
+            <div class="mb-3 login-form-section">
+                <!--Form-Login-Email-->
+                <label asp-for="Input.Email" class="sr-only" type="email">Email Address</label>
+                <input asp-for="Input.Email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>
+                <!--Form-Login-Password-->
+                <label asp-for="Input.Password" class="sr-only" type="password">Password</label>
+                <input asp-for="Input.Password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <!--Form-Login-ErrMsg-->
+                <!--
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+            <!--Form-Login-RememberMe-->
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe">
+                        <input asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <!--Form-Login-SubmitBtn-->
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+            <!--Form-Login-ForgotPassword-->
+            <div class="mt-3">
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>
+            </div>
+            <!--Form-Login-RegisterLink-->
+               <h2 class="h3 font-weight-normal mb-3">New Here?</h2>
+                <div id="login-register-btn btn btn-lg">
+                    <a class="btn btn-lg btn-block btn-yellow-grey" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </div>
+            <!--Form-Login-SwinLogo-->
+            <!-- <div class="logo-business mt-5">
+                <img src="~/image/swin-logo.png" alt="Swinburne Logo" height="90" />
+            </div>-->
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

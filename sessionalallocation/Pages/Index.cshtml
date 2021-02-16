@@ -1,0 +1,220 @@
+﻿@{
+    ViewData["Title"] = "Swinburne Sessional Staff Portal";
+}
+
+<link href="~/css/login-style.css" rel="stylesheet" />
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <style>
+
+        * {
+            font-family: 'Open Sans', sans-serif, Tahoma, Arial;
+        }
+
+        body {
+            padding-top: 40px;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row text-center py-3">
+            <div class="col-md-12">
+                <h1 class="display-4 font-weight-light">Swinburne Sessional Staff Portal</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-justify mb-3">
+                <h2 class="text-center">I'm New!</h2>
+                <p>Register an account with us to view and apply for upcoming classes.</p>
+                <a class="btn btn-lg btn-block btn-yellow-grey align-text-bottom" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </div>
+            <div class="col-md-6 text-justify mb-3">
+                <h2 class="text-center">I've been here before!</h2>
+                <p>Returning Users can login below.</p>
+                <a class="btn btn-lg btn-block btn-primary align-text-bottom" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <h2 class="mb-2">Home Page</h2>
+        @if (User.IsInRole("Admin"))
+        {
+            <h2>System Administration Tools</h2>
+            <div class="row pb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">My Units</h5>
+                            <p>View all Departments according to their Schools</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Admin" asp-action="AllDepartments">
+                                <div class="text-center">
+                                    View All Departments
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">User Management</h5>
+                            <p>Amend existing User Roles to grand them elevated priviledges in STAS</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Admin" asp-action="ListUsers">
+                                <div class="text-center">
+                                    View User Editor
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("DepartmentChair"))
+        {
+            <h2>Department Chair Administration</h2>
+            <div class="row pb-5">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">View My Departments</h5>
+                            <p>View your Departments to manage Units and Convenors</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="DepartmentChair" asp-action="Index">
+                                <div class="text-center">
+                                    View My Departments
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Import Units</h5>
+                            <p>Open the Importer tool to import Units and Classes</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="TimetableImporter" asp-action="Index">
+                                <div class="text-center">
+                                    Open Timetable Importer
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Update Payrates</h5>
+                            <p>View and update current payrates for each Tutor pay grade</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Apply" asp-action="Index">
+                                <div class="text-center">
+                                    Open Payrates Editor
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("Convenor"))
+        {
+            <h2>Unit Administration</h2>
+            <div class="row pb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">My Units</h5>
+                            <p>View your assigned Units and anyone who has applied</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Convenor" asp-action="Index">
+                                <div class="text-center">
+                                    View My Units
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Import Units</h5>
+                            <p>Open the Importer tool to import Units and Classes</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Apply" asp-action="Index">
+                                <div class="text-center">
+                                    Open Timetable Importer
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("Applicant"))
+        {
+            <!-- Applicant Activities -->
+            <h2>My Applications</h2>
+            <div class="row pb-5">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Apply for Work</h5>
+                            <p>View and apply to Classes being offered by Swinburne.</p>
+
+                            <a class="btn btn-primary" asp-area="" asp-controller="Apply" asp-action="Index">
+                                <div class="text-center">
+                                    Apply for Classes
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">My Applications</h5>
+                            <p>Review classes you have applied for</p>
+                            <a class="btn btn-primary" asp-area="" asp-controller="Apply" asp-action="MyApplications">
+                                <div class="text-center">
+                                    View my Applications
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <p class="h2">My Settings</p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile/Account Settings</h5>
+                        <p>Change your Personal details and update your R&eacute;sum&eacute; under your Account Settings</p>
+                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <div class="text-center">
+                                Update My Details
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole("Applicant"))
+            {
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Time Availability</h5>
+                            <p>Provide your with your best Available times to get offers that suit your schedule</p>
+                            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Manage/TimeAvailability">
+                                <div class="text-center">
+                                    Update Availability
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
